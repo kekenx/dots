@@ -4,6 +4,28 @@
              '("melpa" . "https://melpa.org/packages/"))
 (when (< emacs-major-version 24)
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+
+(package-initialize)
+(defun ensure-package-installed (&rest packages)
+    "Assure every package is installed, ask for installation if it’s not.
+
+Return a list of installed packages or nil for every skipped package."
+    (mapcar
+     (lambda (package)
+       ;; (package-installed-p 'evil)
+       (if (package-installed-p package)
+	   nil
+	 (if (y-or-n-p (format "Package %s is missing. Install it? " package))
+	     (package-install package)
+	   package)))
+     packages))
+
+;; make sure to have downloaded archive description.
+;; Or use package-archive-contents as suggested by Nicolas Dudebout
+(or (file-exists-p package-user-dir)
+    (package-refresh-contents))
+
+(ensure-package-installed 'go-mode 'python-mode 'auto-complete 'rjsx-mode 'matlab-mode 'typescript-mode 'ag)
 (package-initialize)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -16,7 +38,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (rjsx-mode typescript-mode python-mode go-mode auto-complete))))
+    (ag helm-ag helm matlab-mode rjsx-mode typescript-mode python-mode go-mode auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -134,9 +156,9 @@
 ;;    ((((type x)) (:inherit company-tooltip-selection :weight bold))
 ;;     (t (:inherit company-tooltip-selection)))))
 
+;; go
 (require 'go-mode)
 (require 'company-go)
-
 
 (add-hook 'go-mode-hook 'company-mode)
 (add-hook 'go-mode-hook 'flycheck-mode)
@@ -148,3 +170,28 @@
            (setq indent-tabs-mode nil)    
            (setq c-basic-offset 8)        
            (setq tab-width 8)))
+
+;; helm
+(require 'helm-config)
+(helm-mode 1)
+
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x C-g") 'helm-do-grep-ag)
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+(put 'upcase-region 'disabled nil)
+
+(defun helm-ag-project-root ()
+  (interactive)
+  (let ((rootdir (helm-ag--project-root)))
+    (unless rootdir
+      (error "Could not find the project root. Create a git, hg, or svn repository there first. "))
+    (helm-ag rootdir)))
+
+(defun helm-ag--project-root ()
+  (cl-loop for dir in '(".git/" ".hg/" ".svn/" ".git")
+           when (locate-dominating-file default-directory dir)
+           return it))
+(global-set-key (kbd "M-p") 'helm-ag-project-root)
