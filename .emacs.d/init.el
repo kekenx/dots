@@ -25,7 +25,7 @@ Return a list of installed packages or nil for every skipped package."
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
 
-(ensure-package-installed 'go-mode 'python-mode 'auto-complete 'rjsx-mode 'matlab-mode 'typescript-mode 'ag)
+(ensure-package-installed 'go-mode 'python-mode 'auto-complete 'rjsx-mode 'matlab-mode 'typescript-mode 'ag 'company 'company-go 'helm 'helm-ag)
 (package-initialize)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
