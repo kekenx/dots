@@ -26,6 +26,14 @@ use_emacs() {
     emacsclient -nw --no-wait -c "$1" 2> /dev/null || emacs -nw "$1"
 }
 
+clipin() {
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+	xclip -selection clipboard
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+	pbcopy
+    fi
+}
+
 alias ll="ls -l"
 alias sl="ls"
 alias e='use_emacs'
