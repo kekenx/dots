@@ -34,6 +34,7 @@ clipin() {
     fi
 }
 
+alias ls="ls --color=auto"
 alias ll="ls -l"
 alias sl="ls"
 alias e='use_emacs'
