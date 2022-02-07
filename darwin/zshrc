@@ -41,6 +41,14 @@ alias emacs='use_emacs'
 alias updatedb='sudo /usr/libexec/locate.updatedb'
 alias rm="rm -i"
 
+# For zsh
+export HISTFILE=${HOME}/.zsh_history
+export HISTSIZE=1000
+export SAVEHIST=10000
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
+setopt hist_no_store
+
 # For python environment
 PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
