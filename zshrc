@@ -49,6 +49,7 @@ export SAVEHIST=10000
 setopt hist_ignore_dups
 setopt hist_reduce_blanks
 setopt hist_no_store
+setopt nonomatch
 
 # For python environment
 PYENV_ROOT="$HOME/.pyenv"
