@@ -23,7 +23,7 @@ setopt PROMPT_SUBST
 
 use_emacs() {
     # use emacs daemon if running.
-    emacsclient -nw --no-wait -c "$1" 2> /dev/null || emacs -nw "$1"
+    emacsclient -nw --no-wait -c "${@:1}" 2> /dev/null || emacs -nw "${@:1}"
 }
 
 clipin() {
@@ -32,6 +32,10 @@ clipin() {
     elif [[ "$OSTYPE" == "darwin"* ]]; then
 	pbcopy
     fi
+}
+
+activate_kubectl_completion() {
+    type kubectl &> /dev/null && source <(kubectl completion zsh)
 }
 
 alias ls="ls --color=auto"
@@ -64,3 +68,6 @@ alias cb="cargo build"
 # For Node
 export PATH="$HOME/.nodenv/bin:$PATH"
 eval "$(nodenv init -)"
+
+# kubernetes
+activate_kubectl_completion
