@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-if [ -z "$TMUX" ] && [ -z "$STY" ] ;then
+if [[ "$OSTYPE" == "linux-gnu"* ]] && [ -z "$TMUX" ] && [ -z "$STY" ] ;then
     if tmux list-sessions >& /dev/null; then
         exec tmux a
     else
