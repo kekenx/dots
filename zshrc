@@ -38,7 +38,6 @@ activate_kubectl_completion() {
     type kubectl &> /dev/null && source <(kubectl completion zsh)
 }
 
-alias ls="ls --color=auto"
 alias ll="ls -l"
 alias sl="ls"
 alias e='use_emacs'
