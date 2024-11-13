@@ -38,6 +38,9 @@ activate_kubectl_completion() {
     type kubectl &> /dev/null && source <(kubectl completion zsh)
 }
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    alias ls="ls --color=auto"
+fi
 alias ll="ls -l"
 alias sl="ls"
 alias e='use_emacs'
