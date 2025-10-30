@@ -66,6 +66,7 @@ eval "$(pyenv init -)"
 source $HOME/.cargo/env
 alias cr="cargo run"
 alias cb="cargo build"
+alias ct="cargo test"
 
 # For Node
 export PATH="$HOME/.nodenv/bin:$PATH"
@@ -73,3 +74,7 @@ eval "$(nodenv init -)"
 
 # kubernetes
 activate_kubectl_completion
+
+autoload -Uz select-word-style compinit
+select-word-style bash
+compinit
